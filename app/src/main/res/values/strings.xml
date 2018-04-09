@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Jamquery</string>
+  <string name="menu_search">Search</string>
 </resources>
