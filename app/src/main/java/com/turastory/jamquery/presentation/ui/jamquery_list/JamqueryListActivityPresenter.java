@@ -30,7 +30,7 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
         
             @Override
             public void onError(Exception e) {
-                // TODO: 2018-04-12 error handling
+                view.showError(e);
             }
         });
     }

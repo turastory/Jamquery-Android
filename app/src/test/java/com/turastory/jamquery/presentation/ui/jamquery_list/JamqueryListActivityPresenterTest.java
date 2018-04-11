@@ -13,7 +13,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * Created by tura on 2018-04-12.
@@ -54,17 +53,19 @@ public class JamqueryListActivityPresenterTest {
     @Test
     public void test_executeUseCaseFailedOnEnterText() {
         String keyWord = "asdf";
+    
+        Exception mockException = mock(Exception.class);
         
         // Call onJamqueryListLoaded() when useCase.execute() is called.
         doAnswer(invocation -> {
             ((GetJamqueryListUseCase.UseCaseCallback) invocation.getArgument(1))
-                .onError(mock(Exception.class));
+                .onError(mockException);
             return null;
         }).when(mockGetJamqueryListUseCase).execute(eq(keyWord), any(GetJamqueryListUseCase.UseCaseCallback.class));
         
         jamqueryListPresenter.onEnterText(keyWord);
         
         verify(mockGetJamqueryListUseCase).execute(eq(keyWord), any(GetJamqueryListUseCase.UseCaseCallback.class));
-        verifyZeroInteractions(mockJamqueryListView);
+        verify(mockJamqueryListView).showError(mockException);
     }
 }

@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface JamqueryListView extends JamqueryView {
     void showResult(List<JamqueryVO> jamqueries);
+    
+    void showError(Exception e);
 }

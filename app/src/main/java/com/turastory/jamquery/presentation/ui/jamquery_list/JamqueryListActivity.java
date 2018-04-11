@@ -68,4 +68,9 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     public void showResult(List<JamqueryVO> jamqueries) {
         jamqueryListAdapter.setJamqueries(jamqueries);
     }
+    
+    @Override
+    public void showError(Exception e) {
+        // TODO: 2018-04-12 Error handling
+    }
 }
