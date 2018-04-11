@@ -1,4 +1,4 @@
-package com.turastory.jamquery.util;
+package com.turastory.jamquery.presentation.util;
 
 import android.text.Editable;
 import android.text.TextWatcher;

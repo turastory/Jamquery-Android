@@ -1,4 +1,4 @@
-package com.turastory.jamquery;
+package com.turastory.jamquery.presentation;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.turastory.jamquery.base.BaseActivity;
-import com.turastory.jamquery.util.Stubs;
+import com.turastory.jamquery.R;
+import com.turastory.jamquery.presentation.base.BaseActivity;
+import com.turastory.jamquery.presentation.util.Stubs;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
