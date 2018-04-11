@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
  * Created by tura on 2018-04-11.
  * <p>
  * 로그인을 하는 액티비티.
+ * TODO: 추가해야함
  */
 public class LoginActivity extends BaseActivity {
     
