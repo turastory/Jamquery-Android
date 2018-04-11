@@ -19,7 +19,7 @@ public class JamqueryVO {
         this.url = url;
     }
     
-    public Date Date() {
+    public Date getDate() {
         return date;
     }
     
@@ -27,7 +27,7 @@ public class JamqueryVO {
         this.date = date;
     }
     
-    public String Title() {
+    public String getTitle() {
         return title;
     }
     
@@ -35,7 +35,7 @@ public class JamqueryVO {
         this.title = title;
     }
     
-    public String Url() {
+    public String getUrl() {
         return url;
     }
     
