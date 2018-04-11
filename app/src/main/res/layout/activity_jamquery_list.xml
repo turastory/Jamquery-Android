@@ -6,7 +6,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="@color/greyish_brown"
-  tools:context=".presentation.MainActivity">
+  tools:context=".presentation.ui.jamquery_list.JamqueryListActivity">
 
   <FrameLayout
     android:id="@+id/edit_text_container"

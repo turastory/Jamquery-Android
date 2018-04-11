@@ -1,4 +1,4 @@
-package com.turastory.jamquery.presentation;
+package com.turastory.jamquery.presentation.ui.jamquery_list;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,9 +17,9 @@ import butterknife.ButterKnife;
 /**
  * Created by tura on 2018-04-11.
  * <p>
- * Main entry point.
+ * Jamquery 리스트를 보여주는 액티비티.
  */
-public class MainActivity extends BaseActivity {
+public class JamqueryListActivity extends BaseActivity {
     
     @BindView(R.id.jamquery_list)
     RecyclerView jamqueryList;
@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_jamquery_list);
         ButterKnife.bind(this);
         
         queryText.addTextChangedListener(new Stubs.TextWatcherLogged());
