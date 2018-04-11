@@ -24,7 +24,7 @@ public class JamqueryListActivityTest {
     public ActivityTestRule<JamqueryListActivity> activityTestRule = new ActivityTestRule<>(JamqueryListActivity.class);
     
     @Test
-    public void test_showEmptyViewWhenNoRequest() {
+    public void test_showEmptyViewWhenNotEditQuery() {
         onView(withId(R.id.jamquery_list_empty_view))
             .check(matches(isDisplayed()));
     }

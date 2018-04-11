@@ -42,6 +42,11 @@
   <include
     android:id="@+id/jamquery_list_empty_view"
     layout="@layout/stub"
-    android:visibility="invisible"/>
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/edit_text_container"/>
 
 </android.support.constraint.ConstraintLayout>
