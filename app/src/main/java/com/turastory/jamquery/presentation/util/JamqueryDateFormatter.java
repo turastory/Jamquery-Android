@@ -1,4 +1,4 @@
-package com.turastory.jamquery.presentation.ui.jamquery_list;
+package com.turastory.jamquery.presentation.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

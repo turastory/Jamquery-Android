@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.turastory.jamquery.R;
+import com.turastory.jamquery.presentation.util.JamqueryDateFormatter;
 import com.turastory.jamquery.presentation.vo.JamqueryVO;
 
 import java.util.ArrayList;
