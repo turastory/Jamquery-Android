@@ -1,15 +1,16 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.turastory.jamquery.R;
 import com.turastory.jamquery.presentation.base.BaseActivity;
 import com.turastory.jamquery.presentation.util.Stubs;
+import com.turastory.jamquery.presentation.vo.JamqueryVO;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
  * <p>
  * Jamquery 리스트를 보여주는 액티비티.
  */
-public class JamqueryListActivity extends BaseActivity {
+public class JamqueryListActivity extends BaseActivity implements JamqueryListView {
     
     @BindView(R.id.jamquery_list)
     RecyclerView jamqueryList;
@@ -27,6 +28,8 @@ public class JamqueryListActivity extends BaseActivity {
     EditText queryText;
     @BindView(R.id.jamquery_list_empty_view)
     ViewGroup emptyView;
+    
+    private JamqueryListPresenter presenter;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,15 @@ public class JamqueryListActivity extends BaseActivity {
         
         queryText.addTextChangedListener(new Stubs.TextWatcherLogged());
         
-        new Handler().postDelayed(() -> emptyView.setVisibility(View.VISIBLE), 5000);
+        initializePresenter();
+    }
+    
+    private void initializePresenter() {
+        presenter = new JamqueryListActivityPresenter(this);
+    }
+    
+    @Override
+    public void showResult(List<JamqueryVO> jamqueries) {
+        // TODO: 2018-04-11
     }
 }
