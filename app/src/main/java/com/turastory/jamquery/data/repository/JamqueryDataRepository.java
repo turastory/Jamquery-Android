@@ -1,17 +1,11 @@
 package com.turastory.jamquery.data.repository;
 
-import com.turastory.jamquery.data.exception.JamqueryNotFoundException;
-import com.turastory.jamquery.data.exception.NetworkException;
-import com.turastory.jamquery.data.network.JamqueryRestApi;
+import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
 import com.turastory.jamquery.domain.repository.JamqueryRepository;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by tura on 2018-04-12.
@@ -20,27 +14,23 @@ import retrofit2.Response;
  */
 public class JamqueryDataRepository implements JamqueryRepository {
     
-    private JamqueryRestApi restApi;
+    private JamqueryDataSource dataSource;
     
-    protected JamqueryDataRepository(JamqueryRestApi jamqueryRestApi) {
-        restApi = jamqueryRestApi;
+    protected JamqueryDataRepository(JamqueryDataSource dataSource) {
+        this.dataSource = dataSource;
     }
     
     @Override
     public void getJamqueryList(GetJamqueryListRq request, RepositoryCallback callback) {
-        restApi.getJamqueryList(request).enqueue(new Callback<List<GetJamqueryListRs>>() {
+        dataSource.getJamqueryList(request, new JamqueryDataSource.DataSourceCallback() {
             @Override
-            public void onResponse(Call<List<GetJamqueryListRs>> call, Response<List<GetJamqueryListRs>> response) {
-                if (response.isSuccessful()) {
-                    callback.onLoad(response.body());
-                } else {
-                    callback.onError(new JamqueryNotFoundException());
-                }
+            public void onLoad(List<GetJamqueryListRs> jamqueries) {
+                callback.onLoad(jamqueries);
             }
         
             @Override
-            public void onFailure(Call<List<GetJamqueryListRs>> call, Throwable t) {
-                callback.onError(new NetworkException(t));
+            public void onError(Exception e) {
+                callback.onError(e);
             }
         });
     }

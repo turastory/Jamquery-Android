@@ -1,5 +1,6 @@
 package com.turastory.jamquery.data.datasource;
 
+import com.turastory.jamquery.data.exception.JamqueryNotFoundException;
 import com.turastory.jamquery.data.exception.NetworkException;
 import com.turastory.jamquery.data.network.JamqueryRestApi;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
@@ -24,17 +25,20 @@ public class JamqueryCloudDataSource implements JamqueryDataSource {
     
     @Override
     public void getJamqueryList(GetJamqueryListRq request, DataSourceCallback callback) {
-        restApi.getJamqueryList(request)
-            .enqueue(new Callback<List<GetJamqueryListRs>>() {
-                @Override
-                public void onResponse(Call<List<GetJamqueryListRs>> call, Response<List<GetJamqueryListRs>> response) {
+        restApi.getJamqueryList(request).enqueue(new Callback<List<GetJamqueryListRs>>() {
+            @Override
+            public void onResponse(Call<List<GetJamqueryListRs>> call, Response<List<GetJamqueryListRs>> response) {
+                if (response.isSuccessful()) {
                     callback.onLoad(response.body());
+                } else {
+                    callback.onError(new JamqueryNotFoundException());
                 }
-                
-                @Override
-                public void onFailure(Call<List<GetJamqueryListRs>> call, Throwable t) {
-                    callback.onError(new NetworkException(t));
-                }
-            });
+            }
+        
+            @Override
+            public void onFailure(Call<List<GetJamqueryListRs>> call, Throwable t) {
+                callback.onError(new NetworkException(t));
+            }
+        });
     }
 }
