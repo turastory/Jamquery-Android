@@ -1,13 +1,19 @@
 package com.turastory.jamquery.data.json;
 
+import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by tura on 2018-04-12.
  * <p>
  * Mock data for test..
  */
-public final class GetJamqueryListRsMock {
+public final class GetJamqueryListRsMock implements RsMock<GetJamqueryListRs> {
     
-    public static String get() {
+    @Override
+    public String getJson() {
         return "[\n" +
             "  {\n" +
             "    \"day\": 10,\n" +
@@ -24,5 +30,20 @@ public final class GetJamqueryListRsMock {
             "    \"jamName\": \"test1\"\n" +
             "  }\n" +
             "]";
+    }
+    
+    @Override
+    public GetJamqueryListRs get() {
+        return new GetJamqueryListRs("test0", "http://test0/", "2018", "7", "10");
+    }
+    
+    @Override
+    public List<GetJamqueryListRs> getList() {
+        List<GetJamqueryListRs> list = new ArrayList<>();
+        
+        list.add(new GetJamqueryListRs("test0", "http://test0/", "2018", "7", "10"));
+        list.add(new GetJamqueryListRs("test1", "http://test1/", "2018", "7", "10"));
+        
+        return list;
     }
 }

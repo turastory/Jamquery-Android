@@ -1,12 +1,17 @@
 package com.turastory.jamquery.data.repository;
 
-import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.data.datasource.JamqueryDataSourceProvider;
+import com.turastory.jamquery.data.exception.JamqueryNotFoundException;
+import com.turastory.jamquery.data.exception.NetworkException;
+import com.turastory.jamquery.data.network.JamqueryRestApi;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
 import com.turastory.jamquery.domain.repository.JamqueryRepository;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by tura on 2018-04-12.
@@ -15,30 +20,27 @@ import java.util.List;
  */
 public class JamqueryDataRepository implements JamqueryRepository {
     
-    private static JamqueryDataRepository instance;
-    private JamqueryDataSourceProvider dataSourceProvider;
+    private JamqueryRestApi restApi;
     
-    protected JamqueryDataRepository(JamqueryDataSourceProvider dataSourceProvider) {
-        this.dataSourceProvider = dataSourceProvider;
-    }
-    
-    public static JamqueryDataRepository getInstance(JamqueryDataSourceProvider dataSourceProvider) {
-        if (instance == null)
-            instance = new JamqueryDataRepository(dataSourceProvider);
-        return instance;
+    protected JamqueryDataRepository(JamqueryRestApi jamqueryRestApi) {
+        restApi = jamqueryRestApi;
     }
     
     @Override
     public void getJamqueryList(GetJamqueryListRq request, RepositoryCallback callback) {
-        dataSourceProvider.createCloudDataSource().getJamqueryList(request, new JamqueryDataSource.DataSourceCallback() {
+        restApi.getJamqueryList(request).enqueue(new Callback<List<GetJamqueryListRs>>() {
             @Override
-            public void onLoad(List<GetJamqueryListRs> jamqueries) {
-                callback.onLoad(jamqueries);
+            public void onResponse(Call<List<GetJamqueryListRs>> call, Response<List<GetJamqueryListRs>> response) {
+                if (response.isSuccessful()) {
+                    callback.onLoad(response.body());
+                } else {
+                    callback.onError(new JamqueryNotFoundException());
+                }
             }
-            
+        
             @Override
-            public void onError(Exception e) {
-                callback.onError(e);
+            public void onFailure(Call<List<GetJamqueryListRs>> call, Throwable t) {
+                callback.onError(new NetworkException(t));
             }
         });
     }
