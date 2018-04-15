@@ -27,7 +27,12 @@ Inspired by [Android Clean Architecture](https://github.com/android10/Android-Cl
 
 ## Dependencies
 
+- 뷰 바인딩 - [Butterknife](https://github.com/JakeWharton/butterknife)
 - 데이터 직렬화 - [Parceler](https://github.com/johncarl81/parceler)
+- 데이터 직렬화(JSON) - [Gson](https://github.com/google/gson)
 - 폰트 - [Calligraphy](https://github.com/chrisjenx/Calligraphy)
 - 네트워크 통신 - [Retrofit](https://github.com/square/retrofit)
 - 함수형 인터페이스 - [Lightweight-Stream-API](https://github.com/aNNiMON/Lightweight-Stream-API)
+- Mock - [Mockito](https://github.com/mockito/mockito)
+- 유닛 테스트 - [Robolectric](https://github.com/robolectric/robolectric)
+- UI 테스트 - [Espresso](https://developer.android.com/training/testing/espresso/index.html)
