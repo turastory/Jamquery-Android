@@ -27,6 +27,13 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
     
     @Override
     public void onEnterText(String text) {
+        if (text.isEmpty()) {
+            view.showEmptyView(true);
+            return;
+        }
+    
+        view.showEmptyView(false);
+        
         useCase.execute(text, new GetJamqueryListUseCase.UseCaseCallback() {
             @Override
             public void onJamqueryListLoaded(List<GetJamqueryListRs> jamqueries) {

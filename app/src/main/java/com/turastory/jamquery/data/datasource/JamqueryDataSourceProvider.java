@@ -9,7 +9,7 @@ import com.turastory.jamquery.data.network.JamqueryRestApi;
  */
 public class JamqueryDataSourceProvider {
     
-    private static final String remoteServerUrl = "http://jamquery.teamidus.com/";
+    public static final String remoteServerUrl = "http://jamquery.teamidus.com/";
     
     private Context context;
     

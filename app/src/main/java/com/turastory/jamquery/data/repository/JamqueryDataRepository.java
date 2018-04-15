@@ -16,7 +16,7 @@ public class JamqueryDataRepository implements JamqueryRepository {
     
     private JamqueryDataSource dataSource;
     
-    protected JamqueryDataRepository(JamqueryDataSource dataSource) {
+    public JamqueryDataRepository(JamqueryDataSource dataSource) {
         this.dataSource = dataSource;
     }
     

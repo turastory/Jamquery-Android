@@ -4,18 +4,38 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.google.gson.GsonBuilder;
 import com.turastory.jamquery.R;
+import com.turastory.jamquery.data.datasource.JamqueryDataSource;
+import com.turastory.jamquery.data.datasource.JamqueryDataSourceProvider;
+import com.turastory.jamquery.data.executor.JobExecutor;
+import com.turastory.jamquery.data.network.JamqueryRestApi;
+import com.turastory.jamquery.data.repository.JamqueryDataRepository;
+import com.turastory.jamquery.domain.ThreadExecutor;
+import com.turastory.jamquery.domain.UIThreadExecutor;
+import com.turastory.jamquery.domain.mapper.JamqueryMapper;
+import com.turastory.jamquery.domain.repository.JamqueryRepository;
+import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
+import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCaseImpl;
 import com.turastory.jamquery.presentation.base.BaseActivity;
+import com.turastory.jamquery.presentation.base.UIExecutor;
 import com.turastory.jamquery.presentation.util.Stubs;
 import com.turastory.jamquery.presentation.vo.JamqueryVO;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by tura on 2018-04-11.
@@ -61,12 +81,59 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     }
     
     private void initializePresenter() {
-        // TODO: 2018-04-11 initialize presenter
+        JamqueryRestApi restApi = buildJamqueryRestApi(JamqueryDataSourceProvider.remoteServerUrl);
+    
+        JamqueryDataSourceProvider provider = new JamqueryDataSourceProvider(this);
+        JamqueryDataSource dataSource = provider.createCloudDataSource(restApi);
+    
+        JamqueryRepository repository = new JamqueryDataRepository(dataSource);
+    
+        ThreadExecutor threadExecutor = JobExecutor.getInstance();
+        UIThreadExecutor uiThreadExecutor = UIExecutor.getInstance();
+    
+        GetJamqueryListUseCase useCase = new GetJamqueryListUseCaseImpl(
+            repository, threadExecutor, uiThreadExecutor);
+    
+        presenter = new JamqueryListActivityPresenter(this, useCase, new JamqueryMapper());
+    }
+    
+    private JamqueryRestApi buildJamqueryRestApi(String baseUrl) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .build();
+        
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(buildGsonConverter())
+            .build();
+        
+        return retrofit.create(JamqueryRestApi.class);
+    }
+    
+    private Converter.Factory buildGsonConverter() {
+        final GsonBuilder builder = new GsonBuilder();
+        
+        // Adding custom deserializers
+        builder
+            .serializeNulls()
+            .setLenient();
+        
+        return GsonConverterFactory.create(builder.create());
     }
     
     @Override
     public void showResult(List<JamqueryVO> jamqueries) {
         jamqueryListAdapter.setJamqueries(jamqueries);
+    }
+    
+    @Override
+    public void showEmptyView(boolean show) {
+        emptyView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
     
     @Override
