@@ -34,5 +34,4 @@ Inspired by [Android Clean Architecture](https://github.com/android10/Android-Cl
 - 네트워크 통신 - [Retrofit](https://github.com/square/retrofit)
 - 함수형 인터페이스 - [Lightweight-Stream-API](https://github.com/aNNiMON/Lightweight-Stream-API)
 - Mock - [Mockito](https://github.com/mockito/mockito)
-- 유닛 테스트 - [Robolectric](https://github.com/robolectric/robolectric)
 - UI 테스트 - [Espresso](https://developer.android.com/training/testing/espresso/index.html)
