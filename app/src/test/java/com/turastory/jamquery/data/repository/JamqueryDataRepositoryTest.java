@@ -2,7 +2,7 @@ package com.turastory.jamquery.data.repository;
 
 import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,15 +34,15 @@ public class JamqueryDataRepositoryTest {
     private JamqueryDataRepository repository;
     
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         repository = new JamqueryDataRepository(mockLocalDataSource, mockRemoteDataSource);
     }
     
     @Test
-    public void test_getJamqueryListHappy() throws Exception {
+    public void test_getJamqueryListHappy() {
         JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
-        List<JamqueryVO> voList = new ArrayList<>();
+        List<Jamquery> voList = new ArrayList<>();
     
         doAnswer(invocation -> {
             ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))
@@ -58,7 +58,7 @@ public class JamqueryDataRepositoryTest {
     }
     
     @Test
-    public void test_getJamqueryListError() throws Exception {
+    public void test_getJamqueryListError() {
         JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
         Exception mockException = mock(Exception.class);
     

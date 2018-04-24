@@ -15,7 +15,7 @@ import java.util.UUID;
  * Jamquery VO (Presentation 레이어의 모델)
  */
 @Entity(tableName = "jamquery")
-public class JamqueryVO {
+public class Jamquery {
     
     @PrimaryKey
     @NonNull
@@ -32,13 +32,13 @@ public class JamqueryVO {
     private String url;
     
     @Ignore
-    public JamqueryVO(@NonNull Date date,
-                      @NonNull String title, @NonNull String url) {
+    public Jamquery(@NonNull Date date,
+                    @NonNull String title, @NonNull String url) {
         this(UUID.randomUUID().toString(), date, title, url);
     }
     
-    public JamqueryVO(@NonNull String id, @NonNull Date date,
-                      @NonNull String title, @NonNull String url) {
+    public Jamquery(@NonNull String id, @NonNull Date date,
+                    @NonNull String title, @NonNull String url) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -59,7 +59,7 @@ public class JamqueryVO {
         return date;
     }
     
-    public void setDate(Date date) {
+    public void setDate(@NonNull Date date) {
         this.date = date;
     }
     
@@ -68,7 +68,7 @@ public class JamqueryVO {
         return title;
     }
     
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
     
@@ -77,7 +77,7 @@ public class JamqueryVO {
         return url;
     }
     
-    public void setUrl(String url) {
+    public void setUrl(@NonNull String url) {
         this.url = url;
     }
     
@@ -85,13 +85,13 @@ public class JamqueryVO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        
-        JamqueryVO that = (JamqueryVO) o;
-        
-        if (!id.equals(that.id)) return false;
-        if (!date.equals(that.date)) return false;
-        if (!title.equals(that.title)) return false;
-        return url.equals(that.url);
+    
+        Jamquery that = (Jamquery) o;
+    
+        return id.equals(that.id) &&
+            date.equals(that.date) &&
+            title.equals(that.title) &&
+            url.equals(that.url);
     }
     
     @Override

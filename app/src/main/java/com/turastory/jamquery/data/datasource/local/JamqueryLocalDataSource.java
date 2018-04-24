@@ -3,7 +3,7 @@ package com.turastory.jamquery.data.datasource.local;
 import com.annimon.stream.Stream;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.data.exception.JamqueryNotFoundException;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class JamqueryLocalDataSource implements JamqueryDataSource {
     
     @Override
     public void getJamqueryList(String keyword, DataSourceCallback callback) {
-        List<JamqueryVO> jamqueries = jamqueryDao.getJamquries();
+        List<Jamquery> jamqueries = jamqueryDao.getJamquries();
     
         if (jamqueries != null) {
             String key = keyword.toLowerCase();

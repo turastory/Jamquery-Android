@@ -1,7 +1,7 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
         
         useCase.execute(text, new GetJamqueryListUseCase.UseCaseCallback() {
             @Override
-            public void onJamqueryListLoaded(List<JamqueryVO> jamqueries) {
+            public void onJamqueryListLoaded(List<Jamquery> jamqueries) {
                 view.showResult(jamqueries);
             }
     

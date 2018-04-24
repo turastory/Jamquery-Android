@@ -1,6 +1,6 @@
 package com.turastory.jamquery.data.datasource;
 
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class JamqueryDataRepository implements JamqueryDataSource {
     public void getJamqueryList(String keyword, DataSourceCallback callback) {
         localDataSource.getJamqueryList(keyword, new DataSourceCallback() {
             @Override
-            public void onLoad(List<JamqueryVO> jamqueries) {
+            public void onLoad(List<Jamquery> jamqueries) {
                 callback.onLoad(jamqueries);
             }
         

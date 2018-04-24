@@ -6,7 +6,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class JamqueryLocalDataSourceTest {
     private JamqueryLocalDatabase database;
     
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getContext(),
             JamqueryLocalDatabase.class)
@@ -43,7 +43,7 @@ public class JamqueryLocalDataSourceTest {
     }
     
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         database.close();
     }
     
@@ -74,7 +74,7 @@ public class JamqueryLocalDataSourceTest {
     private void testGetJamqueryListUsingKeyword(CountDownLatch latch, String keyword) {
         dataSource.getJamqueryList(keyword, new JamqueryDataSource.DataSourceCallback() {
             @Override
-            public void onLoad(List<JamqueryVO> jamqueries) {
+            public void onLoad(List<Jamquery> jamqueries) {
                 assertThat(jamqueries.size(), is(1));
                 assertThat(jamqueries.get(0).getTitle(), is("Test"));
                 latch.countDown();
@@ -90,7 +90,7 @@ public class JamqueryLocalDataSourceTest {
     
     // 일종의 꼼수..
     private void readyDummyData() {
-        database.jamqueryDao().insertNewJamquery(new JamqueryVO(new Date(), "Test", "https://www.google.com/"));
-        database.jamqueryDao().insertNewJamquery(new JamqueryVO(new Date(), "te", "https://www.google.com/"));
+        database.jamqueryDao().insertNewJamquery(new Jamquery(new Date(), "Test", "https://www.google.com/"));
+        database.jamqueryDao().insertNewJamquery(new Jamquery(new Date(), "te", "https://www.google.com/"));
     }
 }

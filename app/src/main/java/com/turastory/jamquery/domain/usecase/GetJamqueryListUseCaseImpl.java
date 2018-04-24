@@ -4,7 +4,7 @@ import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.domain.ThreadExecutor;
 import com.turastory.jamquery.domain.UIThreadExecutor;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class GetJamqueryListUseCaseImpl implements GetJamqueryListUseCase {
         // so use UI Thread.
         repository.getJamqueryList(keyword, new JamqueryDataSource.DataSourceCallback() {
             @Override
-            public void onLoad(List<JamqueryVO> jamqueries) {
+            public void onLoad(List<Jamquery> jamqueries) {
                 uiThreadExecutor.post(() -> callback.onJamqueryListLoaded(jamqueries));
             }
             

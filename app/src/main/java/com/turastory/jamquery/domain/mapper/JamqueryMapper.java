@@ -3,7 +3,7 @@ package com.turastory.jamquery.domain.mapper;
 import com.annimon.stream.Stream;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
 import com.turastory.jamquery.presentation.util.JamqueryDateFormatter;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by tura on 2018-04-12.
  * <p>
- * Mapping JamqueryVO - GetJamqueryListRs
+ * Mapping Jamquery - GetJamqueryListRs
  */
 public class JamqueryMapper {
     
@@ -19,15 +19,15 @@ public class JamqueryMapper {
     
     }
     
-    public List<JamqueryVO> convert(List<GetJamqueryListRs> jamqueryRsList) {
+    public List<Jamquery> convert(List<GetJamqueryListRs> jamqueryRsList) {
         return Stream.of(jamqueryRsList)
             .map(this::convert)
             .toList();
     }
     
-    private JamqueryVO convert(GetJamqueryListRs rs) {
+    private Jamquery convert(GetJamqueryListRs rs) {
         Date date = JamqueryDateFormatter.parse(constructFormattedDate(rs));
-        return new JamqueryVO(date, rs.getName(), rs.getUrl());
+        return new Jamquery(date, rs.getName(), rs.getUrl());
     }
     
     private String constructFormattedDate(GetJamqueryListRs rs) {

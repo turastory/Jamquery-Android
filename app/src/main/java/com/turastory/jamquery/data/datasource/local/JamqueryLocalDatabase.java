@@ -6,14 +6,14 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 /**
  * Created by tura on 2018-04-24.
  * <p>
  * 로컬 데이터베이스 정의
  */
-@Database(entities = {JamqueryVO.class}, version = 1)
+@Database(entities = {Jamquery.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class JamqueryLocalDatabase extends RoomDatabase {
     

@@ -4,7 +4,7 @@ import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.domain.ThreadExecutor;
 import com.turastory.jamquery.domain.UIThreadExecutor;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +72,7 @@ public class GetJamqueryListUseCaseTest {
     public void test_repositoryCallbackSuccess() {
         String keyWord = "asdf";
     
-        List<JamqueryVO> mockList = mock(List.class);
+        List<Jamquery> mockList = mock(List.class);
         
         doAnswer(invocation -> {
             ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))

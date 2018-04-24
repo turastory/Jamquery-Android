@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.turastory.jamquery.R;
 import com.turastory.jamquery.presentation.util.JamqueryDateFormatter;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +24,13 @@ import butterknife.ButterKnife;
  */
 public class JamqueryListAdapter extends RecyclerView.Adapter<JamqueryListAdapter.ViewHolder> {
     
-    private List<JamqueryVO> jamqueries;
+    private List<Jamquery> jamqueries;
     
     public JamqueryListAdapter() {
         this.jamqueries = new ArrayList<>();
     }
     
-    public void setJamqueries(List<JamqueryVO> newJamqueries) {
+    public void setJamqueries(List<Jamquery> newJamqueries) {
         this.jamqueries = newJamqueries;
         notifyDataSetChanged();
     }
@@ -63,10 +63,10 @@ public class JamqueryListAdapter extends RecyclerView.Adapter<JamqueryListAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-        
-        public void bind(JamqueryVO jamqueryVO) {
-            dateText.setText(JamqueryDateFormatter.format(jamqueryVO.getDate()));
-            titleText.setText(jamqueryVO.getTitle());
+    
+        public void bind(Jamquery jamquery) {
+            dateText.setText(JamqueryDateFormatter.format(jamquery.getDate()));
+            titleText.setText(jamquery.getTitle());
         }
     }
 }

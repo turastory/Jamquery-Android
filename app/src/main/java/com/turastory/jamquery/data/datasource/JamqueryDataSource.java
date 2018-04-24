@@ -1,6 +1,6 @@
 package com.turastory.jamquery.data.datasource;
 
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface JamqueryDataSource extends DataSource {
     void getJamqueryList(String keyword, DataSourceCallback callback);
     
     interface DataSourceCallback {
-        void onLoad(List<JamqueryVO> jamqueries);
+        void onLoad(List<Jamquery> jamqueries);
         
         void onError(Exception e);
     }

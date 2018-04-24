@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ import java.util.List;
 public interface JamqueryDao {
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertNewJamquery(JamqueryVO jamqueryVO);
+    void insertNewJamquery(Jamquery jamquery);
     
-    @Query("SELECT * FROM jamquery ORDER BY create_date DESC")
-    List<JamqueryVO> getJamquries();
+    @Query("SELECT * FROM Jamquery ORDER BY create_date DESC")
+    List<Jamquery> getJamquries();
 }

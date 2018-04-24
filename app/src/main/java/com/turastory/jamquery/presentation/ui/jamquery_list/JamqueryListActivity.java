@@ -25,7 +25,7 @@ import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCaseImpl;
 import com.turastory.jamquery.presentation.base.BaseActivity;
 import com.turastory.jamquery.presentation.base.UIExecutor;
 import com.turastory.jamquery.presentation.util.Stubs;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -134,7 +134,7 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     }
     
     @Override
-    public void showResult(List<JamqueryVO> jamqueries) {
+    public void showResult(List<Jamquery> jamqueries) {
         jamqueryListAdapter.setJamqueries(jamqueries);
     }
     
