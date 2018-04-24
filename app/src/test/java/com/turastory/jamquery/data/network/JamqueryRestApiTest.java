@@ -1,8 +1,8 @@
 package com.turastory.jamquery.data.network;
 
 import com.google.gson.GsonBuilder;
-import com.turastory.jamquery.data.datasource.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
+import com.turastory.jamquery.data.datasource.remote.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.json.GetJamqueryListRsMock;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;

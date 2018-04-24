@@ -1,15 +1,15 @@
 package com.turastory.jamquery.data.repository;
 
+import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.data.json.GetJamqueryListRsMock;
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
+import com.turastory.jamquery.presentation.vo.JamqueryVO;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -42,18 +42,18 @@ public class JamqueryDataRepositoryTest {
     @Test
     public void test_getJamqueryListHappy() throws Exception {
         JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
-        List<GetJamqueryListRs> mockList = new GetJamqueryListRsMock().getList();
+        List<JamqueryVO> voList = new ArrayList<>();
     
         doAnswer(invocation -> {
             ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))
-                .onLoad(mockList);
+                .onLoad(voList);
             return null;
-        }).when(mockLocalDataSource).getJamqueryList(any(GetJamqueryListRq.class),
+        }).when(mockLocalDataSource).getJamqueryList(any(String.class),
             any(JamqueryDataSource.DataSourceCallback.class));
-        
-        repository.getJamqueryList(new GetJamqueryListRq("test"), mockCallback);
     
-        verify(mockCallback).onLoad(mockList);
+        repository.getJamqueryList("test", mockCallback);
+    
+        verify(mockCallback).onLoad(voList);
         verifyNoMoreInteractions(mockCallback);
     }
     
@@ -66,10 +66,10 @@ public class JamqueryDataRepositoryTest {
             ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))
                 .onError(mockException);
             return null;
-        }).when(mockLocalDataSource).getJamqueryList(any(GetJamqueryListRq.class),
+        }).when(mockLocalDataSource).getJamqueryList(any(String.class),
             any(JamqueryDataSource.DataSourceCallback.class));
-        
-        repository.getJamqueryList(new GetJamqueryListRq("test"), mockCallback);
+    
+        repository.getJamqueryList("test", mockCallback);
     
         verify(mockCallback).onError(mockException);
         verifyNoMoreInteractions(mockCallback);

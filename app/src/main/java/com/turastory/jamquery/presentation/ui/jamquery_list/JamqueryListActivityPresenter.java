@@ -1,8 +1,7 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
-import com.turastory.jamquery.domain.mapper.JamqueryMapper;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
+import com.turastory.jamquery.presentation.vo.JamqueryVO;
 
 import java.util.List;
 
@@ -15,14 +14,11 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
     
     private JamqueryListView view;
     private GetJamqueryListUseCase useCase;
-    private JamqueryMapper mapper;
     
     public JamqueryListActivityPresenter(JamqueryListView view,
-                                         GetJamqueryListUseCase useCase,
-                                         JamqueryMapper mapper) {
+                                         GetJamqueryListUseCase useCase) {
         this.view = view;
         this.useCase = useCase;
-        this.mapper = mapper;
     }
     
     @Override
@@ -36,8 +32,8 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
         
         useCase.execute(text, new GetJamqueryListUseCase.UseCaseCallback() {
             @Override
-            public void onJamqueryListLoaded(List<GetJamqueryListRs> jamqueries) {
-                view.showResult(mapper.convert(jamqueries));
+            public void onJamqueryListLoaded(List<JamqueryVO> jamqueries) {
+                view.showResult(jamqueries);
             }
     
             @Override

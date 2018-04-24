@@ -1,8 +1,6 @@
-package com.turastory.jamquery.data.repository;
+package com.turastory.jamquery.data.datasource;
 
-import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
+import com.turastory.jamquery.presentation.vo.JamqueryVO;
 
 import java.util.List;
 
@@ -24,10 +22,10 @@ public class JamqueryDataRepository implements JamqueryDataSource {
     }
     
     @Override
-    public void getJamqueryList(GetJamqueryListRq request, DataSourceCallback callback) {
-        localDataSource.getJamqueryList(request, new DataSourceCallback() {
+    public void getJamqueryList(String keyword, DataSourceCallback callback) {
+        localDataSource.getJamqueryList(keyword, new DataSourceCallback() {
             @Override
-            public void onLoad(List<GetJamqueryListRs> jamqueries) {
+            public void onLoad(List<JamqueryVO> jamqueries) {
                 callback.onLoad(jamqueries);
             }
         
