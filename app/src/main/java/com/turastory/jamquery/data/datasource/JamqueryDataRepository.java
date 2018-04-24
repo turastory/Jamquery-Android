@@ -22,6 +22,11 @@ public class JamqueryDataRepository implements JamqueryDataSource {
     }
     
     @Override
+    public void addJamquery(Jamquery jamquery) {
+        localDataSource.addJamquery(jamquery);
+    }
+    
+    @Override
     public void getJamqueryList(String keyword, DataSourceCallback callback) {
         localDataSource.getJamqueryList(keyword, new DataSourceCallback() {
             @Override

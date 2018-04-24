@@ -7,6 +7,7 @@ import com.turastory.jamquery.data.network.JamqueryRestApi;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
 import com.turastory.jamquery.domain.mapper.JamqueryMapper;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -27,6 +28,11 @@ public class JamqueryCloudDataSource implements JamqueryDataSource {
     
     public JamqueryCloudDataSource(JamqueryRestApi restApi) {
         this.restApi = restApi;
+    }
+    
+    @Override
+    public void addJamquery(Jamquery jamquery) {
+        // TODO: 2018-04-25 구현
     }
     
     @Override

@@ -10,6 +10,8 @@ import java.util.List;
  * Jamquery 데이터 저장소
  */
 public interface JamqueryDataSource extends DataSource {
+    void addJamquery(Jamquery jamquery);
+    
     void getJamqueryList(String keyword, DataSourceCallback callback);
     
     interface DataSourceCallback {
