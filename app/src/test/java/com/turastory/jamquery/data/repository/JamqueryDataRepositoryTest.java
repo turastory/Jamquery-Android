@@ -4,7 +4,6 @@ import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.data.json.GetJamqueryListRsMock;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
-import com.turastory.jamquery.domain.repository.JamqueryRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,26 +26,29 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 public class JamqueryDataRepositoryTest {
     
     @Mock
-    private JamqueryDataSource mockDataSource;
+    private JamqueryDataSource mockLocalDataSource;
     
-    private JamqueryRepository repository;
+    @Mock
+    private JamqueryDataSource mockRemoteDataSource;
+    
+    private JamqueryDataRepository repository;
     
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        repository = new JamqueryDataRepository(mockDataSource);
+        repository = new JamqueryDataRepository(mockLocalDataSource, mockRemoteDataSource);
     }
     
     @Test
     public void test_getJamqueryListHappy() throws Exception {
-        JamqueryRepository.RepositoryCallback mockCallback = mock(JamqueryRepository.RepositoryCallback.class);
+        JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
         List<GetJamqueryListRs> mockList = new GetJamqueryListRsMock().getList();
     
         doAnswer(invocation -> {
             ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))
                 .onLoad(mockList);
             return null;
-        }).when(mockDataSource).getJamqueryList(any(GetJamqueryListRq.class),
+        }).when(mockLocalDataSource).getJamqueryList(any(GetJamqueryListRq.class),
             any(JamqueryDataSource.DataSourceCallback.class));
         
         repository.getJamqueryList(new GetJamqueryListRq("test"), mockCallback);
@@ -57,14 +59,14 @@ public class JamqueryDataRepositoryTest {
     
     @Test
     public void test_getJamqueryListError() throws Exception {
-        JamqueryRepository.RepositoryCallback mockCallback = mock(JamqueryRepository.RepositoryCallback.class);
+        JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
         Exception mockException = mock(Exception.class);
     
         doAnswer(invocation -> {
             ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))
                 .onError(mockException);
             return null;
-        }).when(mockDataSource).getJamqueryList(any(GetJamqueryListRq.class),
+        }).when(mockLocalDataSource).getJamqueryList(any(GetJamqueryListRq.class),
             any(JamqueryDataSource.DataSourceCallback.class));
         
         repository.getJamqueryList(new GetJamqueryListRq("test"), mockCallback);

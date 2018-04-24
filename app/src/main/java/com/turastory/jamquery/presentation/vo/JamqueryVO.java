@@ -13,6 +13,10 @@ public class JamqueryVO {
     private String title;
     private String url;
     
+    public JamqueryVO() {
+    
+    }
+    
     public JamqueryVO(Date date, String title, String url) {
         this.date = date;
         this.title = title;

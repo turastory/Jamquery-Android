@@ -1,10 +1,11 @@
 package com.turastory.jamquery.domain.usecase;
 
+import com.turastory.jamquery.data.datasource.JamqueryDataSource;
+import com.turastory.jamquery.data.repository.JamqueryDataRepository;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
 import com.turastory.jamquery.domain.ThreadExecutor;
 import com.turastory.jamquery.domain.UIThreadExecutor;
-import com.turastory.jamquery.domain.repository.JamqueryRepository;
 
 import java.util.List;
 
@@ -15,14 +16,14 @@ import java.util.List;
  */
 public class GetJamqueryListUseCaseImpl implements GetJamqueryListUseCase {
     
-    private JamqueryRepository repository;
+    private JamqueryDataRepository repository;
     private ThreadExecutor threadExecutor;
     private UIThreadExecutor uiThreadExecutor;
     
     private String keyWord;
     private UseCaseCallback callback;
     
-    public GetJamqueryListUseCaseImpl(JamqueryRepository repository,
+    public GetJamqueryListUseCaseImpl(JamqueryDataRepository repository,
                                       ThreadExecutor threadExecutor,
                                       UIThreadExecutor uiThreadExecutor) {
         this.repository = repository;
@@ -43,7 +44,7 @@ public class GetJamqueryListUseCaseImpl implements GetJamqueryListUseCase {
     public void run() {
         // Use case callback runs in Presenter,
         // so use UI Thread.
-        repository.getJamqueryList(new GetJamqueryListRq(keyWord), new JamqueryRepository.RepositoryCallback() {
+        repository.getJamqueryList(new GetJamqueryListRq(keyWord), new JamqueryDataSource.DataSourceCallback() {
             @Override
             public void onLoad(List<GetJamqueryListRs> jamqueries) {
                 uiThreadExecutor.post(() -> callback.onJamqueryListLoaded(jamqueries));
