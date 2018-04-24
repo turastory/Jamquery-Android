@@ -17,6 +17,8 @@ import retrofit2.Response;
  */
 public class JamqueryCloudDataSource implements JamqueryDataSource {
     
+    public static final String remoteServerUrl = "http://jamquery.teamidus.com/";
+    
     private JamqueryRestApi restApi;
     
     public JamqueryCloudDataSource(JamqueryRestApi restApi) {

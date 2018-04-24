@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 import com.google.gson.GsonBuilder;
 import com.turastory.jamquery.R;
+import com.turastory.jamquery.data.datasource.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.data.datasource.JamqueryDataSourceProvider;
 import com.turastory.jamquery.data.datasource.JamqueryLocalDataSource;
 import com.turastory.jamquery.data.executor.JobExecutor;
 import com.turastory.jamquery.data.network.JamqueryRestApi;
@@ -98,10 +98,8 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     }
     
     private JamqueryDataSource provideRemoteDataSource() {
-        JamqueryRestApi restApi = buildJamqueryRestApi(JamqueryDataSourceProvider.remoteServerUrl);
-        
-        JamqueryDataSourceProvider provider = new JamqueryDataSourceProvider(this);
-        return provider.createCloudDataSource(restApi);
+        JamqueryRestApi restApi = buildJamqueryRestApi(JamqueryCloudDataSource.remoteServerUrl);
+        return new JamqueryCloudDataSource(restApi);
     }
     
     private JamqueryRestApi buildJamqueryRestApi(String baseUrl) {
