@@ -74,4 +74,13 @@ public class JamqueryListActivityPresenterTest {
         verify(mockJamqueryListView).showError(mockException);
         verifyZeroInteractions(mockJamqueryMapper);
     }
+    
+    @Test
+    public void test_showEmptyViewWhenNoText() {
+        String keyWord = "";
+        
+        jamqueryListPresenter.onEnterText(keyWord);
+        
+        verify(mockJamqueryListView).showEmptyView(true);
+    }
 }
