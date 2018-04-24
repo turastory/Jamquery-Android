@@ -1,8 +1,6 @@
 package com.turastory.jamquery.data.network;
 
 import com.google.gson.GsonBuilder;
-import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.data.datasource.remote.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.json.GetJamqueryListRsMock;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
@@ -36,12 +34,10 @@ public class JamqueryRestApiTest {
     public final MockWebServer server = new MockWebServer();
     
     private JamqueryRestApi restApi;
-    private JamqueryDataSource dataSource;
     
     @Before
     public void setUp() throws Exception {
         restApi = buildJamqueryRestApi(server.url("/").toString());
-        dataSource = new JamqueryCloudDataSource(restApi);
     }
     
     @Test
