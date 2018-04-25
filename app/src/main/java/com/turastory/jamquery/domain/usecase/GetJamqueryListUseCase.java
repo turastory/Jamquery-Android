@@ -1,6 +1,6 @@
 package com.turastory.jamquery.domain.usecase;
 
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface GetJamqueryListUseCase extends UseCase {
     void execute(String keyWord, UseCaseCallback callback);
     
     interface UseCaseCallback {
-        void onJamqueryListLoaded(List<GetJamqueryListRs> jamqueries);
+        void onJamqueryListLoaded(List<Jamquery> jamqueries);
         
         void onError(Exception e);
     }

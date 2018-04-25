@@ -6,8 +6,6 @@ import java.util.Date;
 
 /**
  * Created by tura on 2018-04-12.
- * <p>
- * TODO: Add more tests.
  */
 public class DateComparatorTest {
     

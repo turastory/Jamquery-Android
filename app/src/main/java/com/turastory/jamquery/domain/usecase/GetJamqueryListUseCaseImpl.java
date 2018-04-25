@@ -1,10 +1,10 @@
 package com.turastory.jamquery.domain.usecase;
 
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
+import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
+import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.domain.ThreadExecutor;
 import com.turastory.jamquery.domain.UIThreadExecutor;
-import com.turastory.jamquery.domain.repository.JamqueryRepository;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ import java.util.List;
  */
 public class GetJamqueryListUseCaseImpl implements GetJamqueryListUseCase {
     
-    private JamqueryRepository repository;
+    private JamqueryDataRepository repository;
     private ThreadExecutor threadExecutor;
     private UIThreadExecutor uiThreadExecutor;
     
-    private String keyWord;
+    private String keyword;
     private UseCaseCallback callback;
     
-    public GetJamqueryListUseCaseImpl(JamqueryRepository repository,
+    public GetJamqueryListUseCaseImpl(JamqueryDataRepository repository,
                                       ThreadExecutor threadExecutor,
                                       UIThreadExecutor uiThreadExecutor) {
         this.repository = repository;
@@ -32,7 +32,7 @@ public class GetJamqueryListUseCaseImpl implements GetJamqueryListUseCase {
     
     @Override
     public void execute(String keyWord, UseCaseCallback callback) {
-        this.keyWord = keyWord;
+        this.keyword = keyWord;
         this.callback = callback;
         
         // Run this use case. (see run() method)
@@ -43,9 +43,9 @@ public class GetJamqueryListUseCaseImpl implements GetJamqueryListUseCase {
     public void run() {
         // Use case callback runs in Presenter,
         // so use UI Thread.
-        repository.getJamqueryList(new GetJamqueryListRq(keyWord), new JamqueryRepository.RepositoryCallback() {
+        repository.getJamqueryList(keyword, new JamqueryDataSource.DataSourceCallback() {
             @Override
-            public void onLoad(List<GetJamqueryListRs> jamqueries) {
+            public void onLoad(List<Jamquery> jamqueries) {
                 uiThreadExecutor.post(() -> callback.onJamqueryListLoaded(jamqueries));
             }
             

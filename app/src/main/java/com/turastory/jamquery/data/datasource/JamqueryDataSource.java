@@ -1,7 +1,6 @@
 package com.turastory.jamquery.data.datasource;
 
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 
@@ -11,10 +10,10 @@ import java.util.List;
  * Jamquery 데이터 저장소
  */
 public interface JamqueryDataSource extends DataSource {
-    void getJamqueryList(GetJamqueryListRq request, DataSourceCallback callback);
+    void getJamqueryList(String keyword, DataSourceCallback callback);
     
     interface DataSourceCallback {
-        void onLoad(List<GetJamqueryListRs> jamqueries);
+        void onLoad(List<Jamquery> jamqueries);
         
         void onError(Exception e);
     }

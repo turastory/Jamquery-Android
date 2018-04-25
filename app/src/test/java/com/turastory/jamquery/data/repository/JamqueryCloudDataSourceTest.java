@@ -1,7 +1,7 @@
 package com.turastory.jamquery.data.repository;
 
-import com.turastory.jamquery.data.datasource.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
+import com.turastory.jamquery.data.datasource.remote.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.exception.JamqueryNotFoundException;
 import com.turastory.jamquery.data.exception.NetworkException;
 import com.turastory.jamquery.data.json.GetJamqueryListRsMock;
@@ -22,6 +22,7 @@ import retrofit2.Response;
 import retrofit2.mock.Calls;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -53,9 +54,9 @@ public class JamqueryCloudDataSourceTest {
             .thenReturn(Calls.response(responseList));
         
         JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
-        dataSource.getJamqueryList(new GetJamqueryListRq("test"), mockCallback);
-        
-        verify(mockCallback).onLoad(responseList);
+        dataSource.getJamqueryList("test", mockCallback);
+    
+        verify(mockCallback).onLoad(anyList());
         verifyNoMoreInteractions(mockCallback);
     }
     
@@ -66,7 +67,7 @@ public class JamqueryCloudDataSourceTest {
                 ResponseBody.create(null, "Error!"))));
         
         JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
-        dataSource.getJamqueryList(new GetJamqueryListRq("test"), mockCallback);
+        dataSource.getJamqueryList("test", mockCallback);
         
         verify(mockCallback).onError(any(JamqueryNotFoundException.class));
         verifyNoMoreInteractions(mockCallback);
@@ -78,7 +79,7 @@ public class JamqueryCloudDataSourceTest {
             .thenReturn(Calls.failure(new IOException("test")));
         
         JamqueryDataSource.DataSourceCallback mockCallback = mock(JamqueryDataSource.DataSourceCallback.class);
-        dataSource.getJamqueryList(new GetJamqueryListRq("test"), mockCallback);
+        dataSource.getJamqueryList("test", mockCallback);
         
         verify(mockCallback).onError(any(NetworkException.class));
         verifyNoMoreInteractions(mockCallback);

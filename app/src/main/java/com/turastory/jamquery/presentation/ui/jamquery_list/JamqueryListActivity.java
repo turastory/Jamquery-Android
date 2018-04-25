@@ -10,21 +10,22 @@ import android.widget.EditText;
 
 import com.google.gson.GsonBuilder;
 import com.turastory.jamquery.R;
+import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
 import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.data.datasource.JamqueryDataSourceProvider;
+import com.turastory.jamquery.data.datasource.local.JamqueryDao;
+import com.turastory.jamquery.data.datasource.local.JamqueryLocalDataSource;
+import com.turastory.jamquery.data.datasource.local.JamqueryLocalDatabase;
+import com.turastory.jamquery.data.datasource.remote.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.executor.JobExecutor;
 import com.turastory.jamquery.data.network.JamqueryRestApi;
-import com.turastory.jamquery.data.repository.JamqueryDataRepository;
 import com.turastory.jamquery.domain.ThreadExecutor;
 import com.turastory.jamquery.domain.UIThreadExecutor;
-import com.turastory.jamquery.domain.mapper.JamqueryMapper;
-import com.turastory.jamquery.domain.repository.JamqueryRepository;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCaseImpl;
 import com.turastory.jamquery.presentation.base.BaseActivity;
 import com.turastory.jamquery.presentation.base.UIExecutor;
 import com.turastory.jamquery.presentation.util.Stubs;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +64,7 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     
         initializePresenter();
     
-        queryText.addTextChangedListener(new Stubs.TextWatcherLogged() {
+        queryText.addTextChangedListener(new Stubs.TextWatcherLogged(false) {
             @Override
             public void afterTextChanged(Editable s) {
                 super.afterTextChanged(s);
@@ -81,12 +82,8 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     }
     
     private void initializePresenter() {
-        JamqueryRestApi restApi = buildJamqueryRestApi(JamqueryDataSourceProvider.remoteServerUrl);
-    
-        JamqueryDataSourceProvider provider = new JamqueryDataSourceProvider(this);
-        JamqueryDataSource dataSource = provider.createCloudDataSource(restApi);
-    
-        JamqueryRepository repository = new JamqueryDataRepository(dataSource);
+        JamqueryDataRepository repository = new JamqueryDataRepository(
+            provideLocalDataSource(), provideRemoteDataSource());
     
         ThreadExecutor threadExecutor = JobExecutor.getInstance();
         UIThreadExecutor uiThreadExecutor = UIExecutor.getInstance();
@@ -94,7 +91,17 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
         GetJamqueryListUseCase useCase = new GetJamqueryListUseCaseImpl(
             repository, threadExecutor, uiThreadExecutor);
     
-        presenter = new JamqueryListActivityPresenter(this, useCase, new JamqueryMapper());
+        presenter = new JamqueryListActivityPresenter(this, useCase);
+    }
+    
+    private JamqueryDataSource provideLocalDataSource() {
+        JamqueryDao dao = JamqueryLocalDatabase.getInstance(this).jamqueryDao();
+        return new JamqueryLocalDataSource(dao);
+    }
+    
+    private JamqueryDataSource provideRemoteDataSource() {
+        JamqueryRestApi restApi = buildJamqueryRestApi(JamqueryCloudDataSource.remoteServerUrl);
+        return new JamqueryCloudDataSource(restApi);
     }
     
     private JamqueryRestApi buildJamqueryRestApi(String baseUrl) {
@@ -127,7 +134,7 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     }
     
     @Override
-    public void showResult(List<JamqueryVO> jamqueries) {
+    public void showResult(List<Jamquery> jamqueries) {
         jamqueryListAdapter.setJamqueries(jamqueries);
     }
     
@@ -139,5 +146,6 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     @Override
     public void showError(Exception e) {
         // TODO: 2018-04-12 Error handling
+        e.printStackTrace();
     }
 }

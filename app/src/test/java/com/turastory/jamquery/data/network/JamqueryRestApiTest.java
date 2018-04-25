@@ -1,10 +1,6 @@
 package com.turastory.jamquery.data.network;
 
-import android.content.Context;
-
 import com.google.gson.GsonBuilder;
-import com.turastory.jamquery.data.datasource.JamqueryDataSource;
-import com.turastory.jamquery.data.datasource.JamqueryDataSourceProvider;
 import com.turastory.jamquery.data.json.GetJamqueryListRsMock;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
@@ -28,7 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 /**
  * Created by tura on 2018-04-13.
@@ -39,13 +34,10 @@ public class JamqueryRestApiTest {
     public final MockWebServer server = new MockWebServer();
     
     private JamqueryRestApi restApi;
-    private JamqueryDataSource dataSource;
     
     @Before
     public void setUp() throws Exception {
         restApi = buildJamqueryRestApi(server.url("/").toString());
-        dataSource = new JamqueryDataSourceProvider(mock(Context.class))
-            .createCloudDataSource(restApi);
     }
     
     @Test

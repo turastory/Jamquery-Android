@@ -1,6 +1,5 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
-import com.turastory.jamquery.domain.mapper.JamqueryMapper;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
 
 import org.junit.Before;
@@ -14,7 +13,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * Created by tura on 2018-04-12.
@@ -27,14 +25,12 @@ public class JamqueryListActivityPresenterTest {
     private JamqueryListView mockJamqueryListView;
     @Mock
     private GetJamqueryListUseCase mockGetJamqueryListUseCase;
-    @Mock
-    private JamqueryMapper mockJamqueryMapper;
     
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         jamqueryListPresenter = new JamqueryListActivityPresenter(
-            mockJamqueryListView, mockGetJamqueryListUseCase, mockJamqueryMapper);
+            mockJamqueryListView, mockGetJamqueryListUseCase);
     }
     
     @Test
@@ -52,7 +48,6 @@ public class JamqueryListActivityPresenterTest {
         
         verify(mockGetJamqueryListUseCase).execute(eq(keyWord), any(GetJamqueryListUseCase.UseCaseCallback.class));
         verify(mockJamqueryListView).showResult(anyList());
-        verify(mockJamqueryMapper).convert(anyList());
     }
     
     @Test
@@ -72,6 +67,14 @@ public class JamqueryListActivityPresenterTest {
         
         verify(mockGetJamqueryListUseCase).execute(eq(keyWord), any(GetJamqueryListUseCase.UseCaseCallback.class));
         verify(mockJamqueryListView).showError(mockException);
-        verifyZeroInteractions(mockJamqueryMapper);
+    }
+    
+    @Test
+    public void test_showEmptyViewWhenNoText() {
+        String keyWord = "";
+        
+        jamqueryListPresenter.onEnterText(keyWord);
+        
+        verify(mockJamqueryListView).showEmptyView(true);
     }
 }

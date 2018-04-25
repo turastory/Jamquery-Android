@@ -1,10 +1,10 @@
 package com.turastory.jamquery.domain.usecase;
 
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRq;
-import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
+import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
+import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.domain.ThreadExecutor;
 import com.turastory.jamquery.domain.UIThreadExecutor;
-import com.turastory.jamquery.domain.repository.JamqueryRepository;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class GetJamqueryListUseCaseTest {
     private GetJamqueryListUseCase useCase;
     
     @Mock
-    private JamqueryRepository mockJamqueryRepository;
+    private JamqueryDataRepository mockJamqueryRepository;
     @Mock
     private ThreadExecutor mockThreadExecutor;
     @Mock
@@ -62,8 +62,8 @@ public class GetJamqueryListUseCaseTest {
         
         verify(mockThreadExecutor).execute(any(Runnable.class));
         verifyNoMoreInteractions(mockThreadExecutor);
-        verify(mockJamqueryRepository).getJamqueryList(any(GetJamqueryListRq.class),
-            any(JamqueryRepository.RepositoryCallback.class));
+        verify(mockJamqueryRepository).getJamqueryList(any(String.class),
+            any(JamqueryDataSource.DataSourceCallback.class));
         verifyNoMoreInteractions(mockJamqueryRepository);
         verifyZeroInteractions(mockUiThreadExecutor);
     }
@@ -71,15 +71,15 @@ public class GetJamqueryListUseCaseTest {
     @Test
     public void test_repositoryCallbackSuccess() {
         String keyWord = "asdf";
-        
-        List<GetJamqueryListRs> mockRsList = mock(List.class);
+    
+        List<Jamquery> mockList = mock(List.class);
         
         doAnswer(invocation -> {
-            ((JamqueryRepository.RepositoryCallback) invocation.getArgument(1))
-                .onLoad(mockRsList);
+            ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))
+                .onLoad(mockList);
             return null;
-        }).when(mockJamqueryRepository).getJamqueryList(any(GetJamqueryListRq.class),
-            any(JamqueryRepository.RepositoryCallback.class));
+        }).when(mockJamqueryRepository).getJamqueryList(any(String.class),
+            any(JamqueryDataSource.DataSourceCallback.class));
         
         GetJamqueryListUseCase.UseCaseCallback mockCallback =
             mock(GetJamqueryListUseCase.UseCaseCallback.class);
@@ -89,7 +89,7 @@ public class GetJamqueryListUseCaseTest {
         
         verify(mockUiThreadExecutor).post(any(Runnable.class));
         verifyNoMoreInteractions(mockUiThreadExecutor);
-        verifyZeroInteractions(mockRsList);
+        verifyZeroInteractions(mockList);
     }
     
     @Test
@@ -99,11 +99,11 @@ public class GetJamqueryListUseCaseTest {
         Exception mockException = mock(Exception.class);
         
         doAnswer(invocation -> {
-            ((JamqueryRepository.RepositoryCallback) invocation.getArgument(1))
+            ((JamqueryDataSource.DataSourceCallback) invocation.getArgument(1))
                 .onError(mockException);
             return null;
-        }).when(mockJamqueryRepository).getJamqueryList(any(GetJamqueryListRq.class),
-            any(JamqueryRepository.RepositoryCallback.class));
+        }).when(mockJamqueryRepository).getJamqueryList(any(String.class),
+            any(JamqueryDataSource.DataSourceCallback.class));
         
         GetJamqueryListUseCase.UseCaseCallback mockCallback =
             mock(GetJamqueryListUseCase.UseCaseCallback.class);

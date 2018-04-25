@@ -3,7 +3,7 @@ package com.turastory.jamquery.domain.mapper;
 import com.annimon.stream.Stream;
 import com.turastory.jamquery.data.rqrs.GetJamqueryListRs;
 import com.turastory.jamquery.presentation.util.JamqueryDateFormatter;
-import com.turastory.jamquery.presentation.vo.JamqueryVO;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +45,8 @@ public class JamqueryMapperTest {
     public void test_convertListSingleItem() {
         List<GetJamqueryListRs> rsList = new ArrayList<>();
         rsList.add(rs);
-        
-        List<JamqueryVO> voList = mapper.convert(rsList);
+    
+        List<Jamquery> voList = mapper.convert(rsList);
         
         assertThat(voList.size(), is(rsList.size()));
         assertEqual(voList.get(0), rs);
@@ -57,15 +57,15 @@ public class JamqueryMapperTest {
         List<GetJamqueryListRs> rsList = new ArrayList<>();
         rsList.add(rs);
         rsList.add(new GetJamqueryListRs("multiple", "http://sample/", "2018", "04", "11"));
-        
-        List<JamqueryVO> voList = mapper.convert(rsList);
+    
+        List<Jamquery> voList = mapper.convert(rsList);
         
         assertThat(voList.size(), is(rsList.size()));
         Stream.of(voList).forEachIndexed((index, vo) ->
             assertEqual(vo, rsList.get(index)));
     }
     
-    private void assertEqual(JamqueryVO vo, GetJamqueryListRs rs) {
+    private void assertEqual(Jamquery vo, GetJamqueryListRs rs) {
         assertThat(vo.getTitle(), is(rs.getName()));
         assertThat(vo.getUrl(), is(rs.getUrl()));
         assertThat(JamqueryDateFormatter.format(vo.getDate()),
