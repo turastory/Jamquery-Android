@@ -9,5 +9,9 @@ import com.turastory.jamquery.presentation.base.JamqueryPresenter;
  */
 public interface JamqueryListPresenter extends JamqueryPresenter {
     void onEnterText(String text);
+    
+    void onClickAdd();
+    
+    void addJamquery(String title, String url);
     // TODO: 2018-04-11 RecyclerView Item 눌렀을 때 반응
 }

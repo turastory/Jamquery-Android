@@ -1,4 +1,11 @@
 <resources>
   <string name="app_name">Jamquery</string>
+
   <string name="menu_search">Search</string>
+  <string name="label_url">url</string>
+  <string name="button_add">Add</string>
+  <string name="label_title">title</string>
+
+  <string name="message_invalid_url">Invalid Url</string>
+
 </resources>

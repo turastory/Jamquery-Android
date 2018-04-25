@@ -1,8 +1,10 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
+import com.turastory.jamquery.domain.usecase.AddJamqueryUseCase;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
 import com.turastory.jamquery.presentation.vo.Jamquery;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,12 +15,15 @@ import java.util.List;
 public class JamqueryListActivityPresenter implements JamqueryListPresenter {
     
     private JamqueryListView view;
-    private GetJamqueryListUseCase useCase;
+    private GetJamqueryListUseCase getJamqueryUseCase;
+    private AddJamqueryUseCase addJamqueryUseCase;
     
     public JamqueryListActivityPresenter(JamqueryListView view,
-                                         GetJamqueryListUseCase useCase) {
+                                         GetJamqueryListUseCase getJamqueryUseCase,
+                                         AddJamqueryUseCase addJamqueryUseCase) {
         this.view = view;
-        this.useCase = useCase;
+        this.getJamqueryUseCase = getJamqueryUseCase;
+        this.addJamqueryUseCase = addJamqueryUseCase;
     }
     
     @Override
@@ -29,8 +34,8 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
         }
     
         view.showEmptyView(false);
-        
-        useCase.execute(text, new GetJamqueryListUseCase.UseCaseCallback() {
+    
+        getJamqueryUseCase.execute(text, new GetJamqueryListUseCase.UseCaseCallback() {
             @Override
             public void onJamqueryListLoaded(List<Jamquery> jamqueries) {
                 view.showResult(jamqueries);
@@ -41,5 +46,15 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
                 view.showError(e);
             }
         });
+    }
+    
+    @Override
+    public void onClickAdd() {
+        view.openAddDialog();
+    }
+    
+    @Override
+    public void addJamquery(String title, String url) {
+        addJamqueryUseCase.execute(new Jamquery(new Date(), title, url));
     }
 }

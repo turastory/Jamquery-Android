@@ -16,4 +16,6 @@ public interface JamqueryListView extends JamqueryView {
     void showEmptyView(boolean show);
     
     void showError(Exception e);
+    
+    void openAddDialog();
 }

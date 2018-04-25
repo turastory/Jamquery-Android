@@ -1,6 +1,8 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
+import com.turastory.jamquery.domain.usecase.AddJamqueryUseCase;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
+import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * Created by tura on 2018-04-12.
@@ -25,16 +28,18 @@ public class JamqueryListActivityPresenterTest {
     private JamqueryListView mockJamqueryListView;
     @Mock
     private GetJamqueryListUseCase mockGetJamqueryListUseCase;
+    @Mock
+    private AddJamqueryUseCase mockAddJamqueryUseCase;
     
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         jamqueryListPresenter = new JamqueryListActivityPresenter(
-            mockJamqueryListView, mockGetJamqueryListUseCase);
+            mockJamqueryListView, mockGetJamqueryListUseCase, mockAddJamqueryUseCase);
     }
     
     @Test
-    public void test_executeUseCaseSuccessOnEnterText() {
+    public void test_executeGetListUseCaseSuccessOnEnterText() {
         String keyWord = "asdf";
         
         // Call onJamqueryListLoaded() when useCase.execute() is called.
@@ -51,7 +56,7 @@ public class JamqueryListActivityPresenterTest {
     }
     
     @Test
-    public void test_executeUseCaseFailedOnEnterText() {
+    public void test_executeGetListUseCaseFailedOnEnterText() {
         String keyWord = "asdf";
     
         Exception mockException = mock(Exception.class);
@@ -67,6 +72,18 @@ public class JamqueryListActivityPresenterTest {
         
         verify(mockGetJamqueryListUseCase).execute(eq(keyWord), any(GetJamqueryListUseCase.UseCaseCallback.class));
         verify(mockJamqueryListView).showError(mockException);
+    }
+    
+    @Test
+    public void test_executeAddJamqueryUseCase() {
+        String title = "title";
+        String url = "http://test.com/";
+        
+        jamqueryListPresenter.addJamquery(title, url);
+        
+        verify(mockAddJamqueryUseCase).execute(any(Jamquery.class));
+        verifyZeroInteractions(mockGetJamqueryListUseCase);
+        verifyZeroInteractions(mockJamqueryListView);
     }
     
     @Test

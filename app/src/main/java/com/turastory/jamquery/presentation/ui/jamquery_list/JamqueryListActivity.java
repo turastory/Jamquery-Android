@@ -1,6 +1,7 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -20,10 +21,13 @@ import com.turastory.jamquery.data.executor.JobExecutor;
 import com.turastory.jamquery.data.network.JamqueryRestApi;
 import com.turastory.jamquery.domain.ThreadExecutor;
 import com.turastory.jamquery.domain.UIThreadExecutor;
+import com.turastory.jamquery.domain.usecase.AddJamqueryUseCase;
+import com.turastory.jamquery.domain.usecase.AddJamqueryUseCaseImpl;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCase;
 import com.turastory.jamquery.domain.usecase.GetJamqueryListUseCaseImpl;
 import com.turastory.jamquery.presentation.base.BaseActivity;
 import com.turastory.jamquery.presentation.base.UIExecutor;
+import com.turastory.jamquery.presentation.ui.jamquery_list.add.AddJamqueryDialog;
 import com.turastory.jamquery.presentation.util.Stubs;
 import com.turastory.jamquery.presentation.vo.Jamquery;
 
@@ -51,6 +55,8 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     EditText queryText;
     @BindView(R.id.jamquery_list_empty_view)
     ViewGroup emptyView;
+    @BindView(R.id.fab_add)
+    FloatingActionButton fab;
     
     private JamqueryListPresenter presenter;
     
@@ -72,10 +78,14 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
             }
         });
     
-        setupJamqueries();
+        fab.setOnClickListener(v -> {
+            presenter.onClickAdd();
+        });
+    
+        setupRecyclerView();
     }
     
-    private void setupJamqueries() {
+    private void setupRecyclerView() {
         jamqueryListAdapter = new JamqueryListAdapter();
         jamqueryList.setAdapter(jamqueryListAdapter);
         jamqueryList.setLayoutManager(new LinearLayoutManager(this));
@@ -88,10 +98,12 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
         ThreadExecutor threadExecutor = JobExecutor.getInstance();
         UIThreadExecutor uiThreadExecutor = UIExecutor.getInstance();
     
-        GetJamqueryListUseCase useCase = new GetJamqueryListUseCaseImpl(
+        GetJamqueryListUseCase getJamqueryListUseCase = new GetJamqueryListUseCaseImpl(
             repository, threadExecutor, uiThreadExecutor);
     
-        presenter = new JamqueryListActivityPresenter(this, useCase);
+        AddJamqueryUseCase addJamqueryUseCase = new AddJamqueryUseCaseImpl(repository, threadExecutor);
+    
+        presenter = new JamqueryListActivityPresenter(this, getJamqueryListUseCase, addJamqueryUseCase);
     }
     
     private JamqueryDataSource provideLocalDataSource() {
@@ -147,5 +159,12 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     public void showError(Exception e) {
         // TODO: 2018-04-12 Error handling
         e.printStackTrace();
+    }
+    
+    @Override
+    public void openAddDialog() {
+        new AddJamqueryDialog(this, (title, url) -> {
+            presenter.addJamquery(title, url);
+        }).show();
     }
 }

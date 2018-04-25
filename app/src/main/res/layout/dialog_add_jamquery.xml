@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="280dp"
+  android:layout_height="wrap_content"
+  android:layout_gravity="center"
+  android:background="@drawable/card_white_24dp"
+  android:orientation="vertical"
+  android:padding="16dp">
+
+  <LinearLayout
+    android:id="@+id/title_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/text_label_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="4dp"
+      android:layout_marginStart="4dp"
+      android:text="@string/label_title"
+      android:textSize="12sp"/>
+
+    <EditText
+      android:id="@+id/edit_text_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="16sp"
+      tools:text="Android"/>
+
+    <TextView
+      android:id="@+id/text_message_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end"
+      android:layout_marginEnd="4dp"
+      android:layout_marginRight="4dp"
+      android:textSize="12sp"
+      tools:text="invalid url"/>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:id="@+id/url_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/text_label_url"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="4dp"
+      android:layout_marginStart="4dp"
+      android:text="@string/label_url"
+      android:textSize="12sp"/>
+
+    <EditText
+      android:id="@+id/edit_text_url"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="16sp"
+      tools:text="Android"/>
+
+    <TextView
+      android:id="@+id/text_message_url"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end"
+      android:layout_marginEnd="4dp"
+      android:layout_marginRight="4dp"
+      android:textSize="12sp"
+      tools:text="invalid url"/>
+
+  </LinearLayout>
+
+  <Button
+    android:id="@+id/button_add"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="8dp"
+    android:text="@string/button_add"/>
+
+</LinearLayout>
