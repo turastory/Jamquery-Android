@@ -1,7 +1,5 @@
-package com.turastory.jamquery.data.repository;
+package com.turastory.jamquery.data.datasource;
 
-import com.turastory.jamquery.data.datasource.JamqueryDataRepository;
-import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.presentation.vo.Jamquery;
 
 import org.junit.Before;

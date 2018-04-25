@@ -1,6 +1,5 @@
-package com.turastory.jamquery.data.repository;
+package com.turastory.jamquery.data.datasource;
 
-import com.turastory.jamquery.data.datasource.JamqueryDataSource;
 import com.turastory.jamquery.data.datasource.remote.JamqueryCloudDataSource;
 import com.turastory.jamquery.data.exception.JamqueryNotFoundException;
 import com.turastory.jamquery.data.exception.NetworkException;
