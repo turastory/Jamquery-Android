@@ -94,4 +94,11 @@ public class JamqueryListActivityPresenterTest {
         
         verify(mockJamqueryListView).showEmptyView(true);
     }
+    
+    @Test
+    public void test_onClickAddShouldOpenAddDialog() {
+        jamqueryListPresenter.onClickAdd();
+        
+        verify(mockJamqueryListView).openAddDialog();
+    }
 }
