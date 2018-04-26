@@ -48,12 +48,7 @@ public class AddJamqueryDialog extends Dialog {
     }
     
     private boolean validUrl() {
-        return !urlMessage().equals(getContext().getString(R.string.message_invalid_url));
-    }
-    
-    @NonNull
-    private String urlMessage() {
-        return ((TextView) findViewById(R.id.text_message_url)).getText().toString();
+        return findViewById(R.id.text_message_url).getVisibility() != View.VISIBLE;
     }
     
     public interface OnCompleteListener {
