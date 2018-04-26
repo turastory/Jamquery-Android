@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import com.annimon.stream.function.Function;
 import com.turastory.jamquery.presentation.vo.Jamquery;
 
 /**
@@ -19,18 +20,31 @@ public abstract class JamqueryLocalDatabase extends RoomDatabase {
     
     private static final Object lock = new Object();
     
+    private static final Function<Context, JamqueryLocalDatabase> defaultProvider = context ->
+        Room.databaseBuilder(context.getApplicationContext(),
+            JamqueryLocalDatabase.class, "Jamquery.db")
+            .build();
+    
     private static JamqueryLocalDatabase instance;
+    private static Function<Context, JamqueryLocalDatabase> databaseProvider;
     
     public static JamqueryLocalDatabase getInstance(Context context) {
         synchronized (lock) {
             if (instance == null) {
-                instance = Room.databaseBuilder(context.getApplicationContext(),
-                    JamqueryLocalDatabase.class, "Jamquery.db")
-                    .build();
+                instance = databaseProvider.apply(context);
             }
             
             return instance;
         }
+    }
+    
+    public static void setDatabaseProvider(Function<Context, JamqueryLocalDatabase> databaseProvider) {
+        JamqueryLocalDatabase.databaseProvider = databaseProvider;
+    }
+    
+    public static void reset() {
+        JamqueryLocalDatabase.databaseProvider = defaultProvider;
+        instance = null;
     }
     
     public abstract JamqueryDao jamqueryDao();

@@ -1,11 +1,13 @@
 package com.turastory.jamquery.presentation.ui.jamquery_list;
 
+import android.arch.persistence.room.Room;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.turastory.jamquery.R;
+import com.turastory.jamquery.data.datasource.local.JamqueryLocalDatabase;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,7 +35,14 @@ import static org.hamcrest.Matchers.not;
 public class JamqueryListActivityTest {
     
     @Rule
-    public ActivityTestRule<JamqueryListActivity> activityTestRule = new ActivityTestRule<JamqueryListActivity>(JamqueryListActivity.class);
+    public ActivityTestRule<JamqueryListActivity> activityTestRule = new ActivityTestRule<JamqueryListActivity>(JamqueryListActivity.class) {
+        @Override
+        protected void beforeActivityLaunched() {
+            JamqueryLocalDatabase.setDatabaseProvider(context ->
+                Room.inMemoryDatabaseBuilder(context, JamqueryLocalDatabase.class)
+                    .build());
+        }
+    };
     
     @Test
     public void test_showEmptyViewWhenNotEditQuery() {
@@ -112,7 +121,6 @@ public class JamqueryListActivityTest {
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
     
-    // FIXME: 2018-04-25 This test fails now, but... I'll fix it tomorrow
     @Test
     public void test_addJamqueryAndSearch() {
         String title = "Google";

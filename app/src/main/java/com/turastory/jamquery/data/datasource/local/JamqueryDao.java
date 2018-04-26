@@ -18,8 +18,8 @@ import java.util.List;
 public interface JamqueryDao {
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertNewJamquery(Jamquery jamquery);
+    void insertNew(Jamquery jamquery);
     
     @Query("SELECT * FROM Jamquery ORDER BY create_date DESC")
-    List<Jamquery> getJamquries();
+    List<Jamquery> getList();
 }

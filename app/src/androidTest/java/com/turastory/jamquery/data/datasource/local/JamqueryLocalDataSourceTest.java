@@ -90,7 +90,7 @@ public class JamqueryLocalDataSourceTest {
     
     // 일종의 꼼수..
     private void readyDummyData() {
-        database.jamqueryDao().insertNewJamquery(new Jamquery(new Date(), "Test", "https://www.google.com/"));
-        database.jamqueryDao().insertNewJamquery(new Jamquery(new Date(), "te", "https://www.google.com/"));
+        database.jamqueryDao().insertNew(new Jamquery(new Date(), "Test", "https://www.google.com/"));
+        database.jamqueryDao().insertNew(new Jamquery(new Date(), "te", "https://www.google.com/"));
     }
 }
