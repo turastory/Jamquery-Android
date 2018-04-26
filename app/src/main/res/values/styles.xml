@@ -8,4 +8,19 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <!-- font 관련 스타일 -->
+  <style name="font"/>
+
+  <style name="font.default" parent="font">
+    <item name="fontPath">fonts/NotoSansKR-Regular-Hestia.otf</item>
+  </style>
+
+  <style name="font.bold" parent="font">
+    <item name="fontPath">fonts/NotoSansKR-Bold-Hestia.otf</item>
+  </style>
+
+  <style name="font.light" parent="font">
+    <item name="fontPath">fonts/NotoSansKR-Light-Hestia.otf</item>
+  </style>
+
 </resources>
