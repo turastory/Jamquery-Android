@@ -1,5 +1,7 @@
 # Jamquery - Android
 
+[![Build Status](https://www.bitrise.io/app/8107ac3245a57db7/status.svg?token=4hSALOUtuV9b0g-cCivqDA&branch=master)](https://www.bitrise.io/app/8107ac3245a57db7)
+
 Android Implementation of Jamquery
 
 Inspired by [Android Clean Architecture](https://github.com/android10/Android-CleanArchitecture)
