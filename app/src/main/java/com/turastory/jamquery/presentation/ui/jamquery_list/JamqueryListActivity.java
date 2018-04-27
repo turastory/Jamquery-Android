@@ -31,6 +31,7 @@ import com.turastory.jamquery.presentation.ui.jamquery_list.add.AddJamqueryDialo
 import com.turastory.jamquery.presentation.util.Stubs;
 import com.turastory.jamquery.presentation.vo.Jamquery;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -146,8 +147,13 @@ public class JamqueryListActivity extends BaseActivity implements JamqueryListVi
     }
     
     @Override
-    public void showResult(List<Jamquery> jamqueries) {
+    public void showResults(List<Jamquery> jamqueries) {
         jamqueryListAdapter.setJamqueries(jamqueries);
+    }
+    
+    @Override
+    public void hideResults() {
+        jamqueryListAdapter.setJamqueries(new ArrayList<>());
     }
     
     @Override

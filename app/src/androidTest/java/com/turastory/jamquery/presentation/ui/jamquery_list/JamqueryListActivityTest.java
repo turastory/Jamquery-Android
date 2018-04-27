@@ -61,14 +61,12 @@ public class JamqueryListActivityTest {
     
     @Test
     public void test_showEmptyViewAgainAfterClearEditQuery() {
-        onView(withId(R.id.edit_text_query))
-            .perform(typeText("asdf"));
+        type(R.id.edit_text_query, "asdf");
     
         onView(withId(R.id.jamquery_list_empty_view))
             .check(matches(not(isDisplayed())));
     
-        onView(withId(R.id.edit_text_query))
-            .perform(clearText());
+        type(R.id.edit_text_query, "");
     
         onView(withId(R.id.jamquery_list_empty_view))
             .check(matches(isDisplayed()));
@@ -96,26 +94,22 @@ public class JamqueryListActivityTest {
         
         onView(withId(R.id.edit_text_url))
             .check(matches(isDisplayed()));
-        
-        validUrl("https://www.google.com/");
-        validUrl("http://realm.io/kr/");
-        invalidUrl("http://www");
-        invalidUrl("https:int.com/");
+    
+        checkValidUrl("https://www.google.com/");
+        checkValidUrl("http://realm.io/kr/");
+        checkInvalidUrl("http://www");
+        checkInvalidUrl("https:int.com/");
     }
     
-    private void invalidUrl(String stringToBeTyped) {
-        onView(withId(R.id.edit_text_url))
-            .perform(clearText())
-            .perform(typeText(stringToBeTyped));
+    private void checkInvalidUrl(String stringToBeTyped) {
+        type(R.id.edit_text_url, stringToBeTyped);
         
         onView(withId(R.id.text_message_url))
             .check(matches(withText("Invalid Url")));
     }
     
-    private void validUrl(String stringToBeTyped) {
-        onView(withId(R.id.edit_text_url))
-            .perform(clearText())
-            .perform(typeText(stringToBeTyped));
+    private void checkValidUrl(String stringToBeTyped) {
+        type(R.id.edit_text_url, stringToBeTyped);
         
         onView(withId(R.id.text_message_url))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -125,22 +119,29 @@ public class JamqueryListActivityTest {
     public void test_addJamqueryAndSearch() {
         String title = "Google";
         String url = "https://www.google.com/";
-        
+    
         performAddJamquery(title, url);
-        
-        onView(withId(R.id.edit_text_query))
-            .perform(clearText())
-            .perform(typeText("Goo"));
-        
+    
+        type(R.id.edit_text_query, "Goo");
+    
         onView(withText("Google"))
             .check(matches(isDisplayed()));
-        
-        onView(withId(R.id.edit_text_query))
-            .perform(clearText())
-            .perform(typeText("ogl"));
-        
+    
+        type(R.id.edit_text_query, "ogl");
+    
         onView(withText("Google"))
             .check(matches(isDisplayed()));
+    
+        type(R.id.edit_text_query, "");
+    
+        onView(withText("Google"))
+            .check(doesNotExist());
+    }
+    
+    private void type(int id, String string) {
+        onView(withId(id))
+            .perform(clearText())
+            .perform(typeText(string));
     }
     
     private void performAddJamquery(String title, String url) {

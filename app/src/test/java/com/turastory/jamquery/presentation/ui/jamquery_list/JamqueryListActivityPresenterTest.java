@@ -52,7 +52,7 @@ public class JamqueryListActivityPresenterTest {
         jamqueryListPresenter.onEnterText(keyWord);
         
         verify(mockGetJamqueryListUseCase).execute(eq(keyWord), any(GetJamqueryListUseCase.UseCaseCallback.class));
-        verify(mockJamqueryListView).showResult(anyList());
+        verify(mockJamqueryListView).showResults(anyList());
     }
     
     @Test

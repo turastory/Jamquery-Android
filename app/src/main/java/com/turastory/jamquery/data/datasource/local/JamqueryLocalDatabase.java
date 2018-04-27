@@ -26,7 +26,7 @@ public abstract class JamqueryLocalDatabase extends RoomDatabase {
             .build();
     
     private static JamqueryLocalDatabase instance;
-    private static Function<Context, JamqueryLocalDatabase> databaseProvider;
+    private static Function<Context, JamqueryLocalDatabase> databaseProvider = defaultProvider;
     
     public static JamqueryLocalDatabase getInstance(Context context) {
         synchronized (lock) {

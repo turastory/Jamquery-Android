@@ -30,6 +30,7 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
     public void onEnterText(String text) {
         if (text.isEmpty()) {
             view.showEmptyView(true);
+            view.hideResults();
             return;
         }
     
@@ -38,7 +39,7 @@ public class JamqueryListActivityPresenter implements JamqueryListPresenter {
         getJamqueryUseCase.execute(text, new GetJamqueryListUseCase.UseCaseCallback() {
             @Override
             public void onJamqueryListLoaded(List<Jamquery> jamqueries) {
-                view.showResult(jamqueries);
+                view.showResults(jamqueries);
             }
     
             @Override

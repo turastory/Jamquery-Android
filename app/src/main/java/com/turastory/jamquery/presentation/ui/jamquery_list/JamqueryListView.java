@@ -11,7 +11,9 @@ import java.util.List;
  * Jamquery 리스트를 보여주는 View
  */
 public interface JamqueryListView extends JamqueryView {
-    void showResult(List<Jamquery> jamqueries);
+    void showResults(List<Jamquery> jamqueries);
+    
+    void hideResults();
     
     void showEmptyView(boolean show);
     
